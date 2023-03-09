@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Logistic locations Dynamic Map</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<style>
+    .map-overlay-container {
+        position: absolute;
+        width: 25%;
+        top: 0;
+        left: 0;
+        padding: 10px;
+        z-index: 1;
+    }
+
+    .map-overlay {
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    
+        background-color: #3b7bfa;
+        border-radius: 3px;
+        padding: 10px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .map-overlay h2,
+    .map-overlay p {
+        margin: 0 0 10px;
+    }
+</style>
+
+<div id="map"></div>
+
+<div class="map-overlay-container">
+    <div class="map-overlay">
+        <h2 id="location-title"></h2>
+        <p id="subTitle">
+        <p id="location-description">
+        </p>
+    </div>
+</div>
+
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiYWthbmltbzEiLCJhIjoiY2w5ODU2cjR2MDR3dTNxcXRpdG5jb3Z6dyJ9.vi2wspa-B9a9gYYWMpEm0A';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+        style: 'mapbox://styles/akanimo1/clf14b7u1004801mozd51vyd8',
+        center: [36.8494608, -1.2780671],
+        maxZoom: 18,
+        minZoom: 5,
+        zoom: 12
+    });
+
+    const marker1 = new mapboxgl.Marker({ color: 'black'})
+            .setLngLat([36.8494608, -1.2780671])
+            .addTo(map);
+
+    const marker2 = new mapboxgl.Marker({ color: 'blue'})
+    .setLngLat([29.3731839, -3.3806734])
+    .addTo(map);
+
+    const marker3 = new mapboxgl.Marker({ color: 'red'})
+    .setLngLat([11.5173912, 3.8862433])
+    .addTo(map);
+
+    const marker4 = new mapboxgl.Marker({ color: 'green'})
+    .setLngLat([18.5773703, 4.3720473])
+    .addTo(map);
+
+    const marker5 = new mapboxgl.Marker({ color: 'red'})
+    .setLngLat([15.2726097, -4.3161726])
+    .addTo(map);
+
+    const marker6 = new mapboxgl.Marker({ color: 'yellow'})
+    .setLngLat([8.7380063, 3.7391021])
+    .addTo(map);
+
+    const marker7 = new mapboxgl.Marker({ color: 'blue'})
+    .setLngLat([32.6058526, -25.9494557])
+    .addTo(map);
+
+    const marker8 = new mapboxgl.Marker({ color: 'purple'})
+    .setLngLat([28.3174378, -15.4136414])
+    .addTo(map);
+
+    const title = document.getElementById('location-title');
+    const subTitle = document.getElementById('location-subTitle');
+    const description = document.getElementById('location-description');
+
+
+    const locations = [
+        {
+            'id': '1',
+            'title': 'WHO Supply Chain Office, Kenya Hub, Supply Chain Officers: FATIMA T. & Gilbert F',
+            'subTitile': 'AFRO OSL Supply chain Office',
+            'description':'This is WHO Kenya Hub, Distribution Office.',
+            'camera': {
+                center: [36.8494608, -1.2780671],
+                bearing: 25.3,
+                zoom: 17.5
+            }
+        },
+        {
+            'id': '2',
+            'title': 'Burundi',
+            'subTitle': 'CHOLERA RESPONSE',colour:"Navy-blue",
+            'description':"KIT, Cholera Investigation, RDT Cholera (SD Bioline 44FK30), Ag, stool, w/acc., kit-20 ",
+                
+            'camera': {
+                center: [29.3731839, -3.3806734],
+                zoom: 18,
+                pitch: 45
+            }
+        },
+        {
+            'id': '3',
+            'title': 'Cameroun',
+            'subTitle': 'CHOLERA RESPONSE',colour:"Navy-blue",
+            'description':"KIT, Cholera Investigation, RDT Cholera (SD Bioline 44FK30), Ag, stool, w/acc., kit-20 ",
+                
+            'camera': {
+                center: [11.5173912, 3.8862433],
+                zoom: 18,
+                pitch: 45
+            }
+        },
+        {
+            'id': '4',
+            'title': 'Central African Republic',
+            'subTitle': 'CHOLERA RESPONSE',colour:"Navy-blue",
+            'description':"KIT, Cholera Investigation, RDT Cholera (SD Bioline 44FK30), Ag, stool, w/acc., kit-20 ",
+                
+            'camera': {
+                center: [18.5773703, 4.3720473],
+                zoom: 18,
+                pitch: 45
+            }
+        },
+        {
+            'id': '5',
+            'title': 'D.R. Congo',
+            'subTitle': 'CHOLERA RESPONSE',
+            'description':"KIT, Cholera Investigation, RDT Cholera (SD Bioline 44FK30), Ag, stool, w/acc., kit-20 ",
+            'camera': {
+                center: [15.2726097, -4.3161726],
+                zoom: 18,
+                pitch: 45
+            }
+        },
+        {
+            'id': '4',
+            'title': 'Equatorial Guinea',
+            'subTitle': 'VHF',
+            'description':"APRON PROTECTION, polyester, reusable, 300g/m2, white, unit// GLOVE EXAMINATION, nitrile, pf, size M, ext. cuff min. 28 cm// RESPIRATOR, mask, FFP2, splash resistant, s.u., non-sterile",
+            'camera': {
+                center: [8.7380063, 3.7391021], 	
+                zoom: 18,
+                pitch: 45
+            }
+        },
+        {
+            'id': '5',
+            'title': 'Kenya',
+            'subTitle': 'CHOLERA RESPONSE// Training// Communication & Staff Wellness',
+            'description':"GLOVE EXAMINATION, nitrile, pf, size M, ext. cuff min. 28 cm: RADIO MOTOROLA (DP4801E 136-174MHz)// KIT, STAFF HEALTH WHO (SHW 2020), MEDICAL COMPLETE",
+            'camera': {
+                center: [36.8124809, -1.2342494],
+                zoom: 18,
+                pitch: 45
+            }
+        },
+        {
+            'id': '6',
+            'title': 'Malawi',
+            'subTitle': 'CHOLERA RESPONSE// Equipment (Ambulance Vehicle)// Medical supplies' ,
+            'description':"KIT, Cholera Investigation, RDT Cholera (SD Bioline 44FK30), Ag, stool, w/acc., kit-20 // ",
+            'camera': {
+                center: [33.7929271, -13.9622973],
+                zoom: 18,
+                pitch: 45
+            }
+        },
+        {
+            'id': '7',
+            'title': 'Mozambique',
+            'description': 'Take a free ferry ride to an island getaway filled with historic architecture, stunning views, gardens and many family-friendly attractions.',
+            'camera': {
+                center: [32.6058526, -25.9494557], 
+                zoom: 18,
+                pitch: 45
+            }
+        },
+        {
+            'id': '8',
+            'title': 'Zambia',
+            'subTitle': 'CHOLERA RESPONSE',
+            'description': 'New York City is made up of five boroughs: the Bronx, Brooklyn, Manhattan, Queens and Staten Island. Each one has enough attractions—and enough personality—to be a city all its own.',
+            'camera': {
+                center: [28.3174378, -15.4136414],
+                zoom: 18,
+                pitch: 45
+            }
+        }
+    ];
+
+    function highlightBorough(code) {
+        // Only show the polygon feature that corresponds to `borocode` in the data.
+        map.setFilter('highlight', ['==', 'borocode', code]);
+    }
+
+    function playback(index) {
+        title.textContent = locations[index].title;
+        description.textContent = locations[index].description;
+
+        highlightBorough(locations[index].id ? locations[index].id : '');
+
+        // Animate the map position based on camera properties.
+        map.flyTo(locations[index].camera);
+
+        map.once('moveend', () => {
+            // Duration the slide is on screen after interaction.
+            window.setTimeout(() => {
+                // Increment index, looping back to the first after the last location.
+                index = (index + 1) % locations.length;
+                playback(index);
+            }, 3000); // After callback, show the location for 3 seconds.
+        });
+    }
+
+    // Display the last title/description first.
+    title.textContent = locations[locations.length - 1].title;
+    description.textContent = locations[locations.length - 1].description;
+
+    map.on('load', () => {
+        map.addSource('boroughs', {
+            'type': 'vector',
+            'url': 'mapbox://mapbox.8ibmsn6u'
+        });
+        map.addLayer(
+            {
+                'id': 'highlight',
+                'type': 'fill',
+                'source': 'boroughs',
+                'source-layer': 'original',
+                'paint': {
+                    'fill-color': '#fd6b50',
+                    'fill-opacity': 0.25
+                },
+                'filter': ['==', 'borocode', '']
+            },
+            'road-label' // Place polygon under labels.
+        );
+
+        // Start the playback animation for each borough.
+        playback(0);
+    });
+</script>
+
+</body>
+</html>
